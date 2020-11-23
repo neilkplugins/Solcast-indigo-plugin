@@ -19,7 +19,6 @@ import pytz
 ################################################################################
 # Globals
 ################################################################################
-state_list = ["From-00-00","From-00-30","From-01-00","From-01-30","From-02-00","From-02-30","From-03-00","From-03-30","From-04-00","From-04-30","From-05-00","From-05-30","From-06-00","From-06-30","From-07-00","From-07-30","From-08-00","From-08-30","From-09-00","From-09-30","From-10-00","From-10-30","From-11-00","From-11-30","From-12-00","From-12-30","From-13-00","From-13-30","From-14-00","From-14-30","From-15-00","From-15-30","From-16-00","From-16-30","From-17-00","From-17-30","From-18-00","From-18-30","From-19-00","From-19-30","From-20-00","From-20-30","From-21-00","From-21-30","From-22-00","From-22-30","From-23-00","From-23-30"]
 
 
 ############################
@@ -27,7 +26,7 @@ state_list = ["From-00-00","From-00-30","From-01-00","From-01-30","From-02-00","
 #############################
 
 
-def refresh_daily_consumption_device(self, device):
+def refresh_daily_solar_device(self, device):
 	if device.pluginProps['dayList'] == 'today':
 		today = str(date.today())
 	else:
@@ -105,82 +104,7 @@ def refresh_daily_consumption_device(self, device):
 
 	device.updateStatesOnServer(device_states)
 
-def token_check_valid(self):
-	time_now = datetime.now() + timedelta(hours=1)
-	expiry_time = datetime.fromtimestamp(self.pluginPrefs['token_expires'])
-	if expiry_time > time_now:
-		self.debugLog("Time remaining on token is " + str(expiry_time - time_now))
-		return True
-	else:
-		self.debugLog("Get new Token - One hour or less remaining valid")
-		return False
 
-
-def refresh_token(self):
-	url = "https://api.glowmarkt.com/api/v0-1/auth"
-
-	payload = "{\n\"username\": \"" + self.pluginPrefs['bright_account'] + "\",\n\"password\": \"" + \
-			  self.pluginPrefs['bright_password'] + "\"\n}"
-	headers = {
-		'Content-Type': 'application/json',
-		'applicationId': "b0f1b774-a586-4f72-9edd-27ead8aa7a8d",
-	}
-	try:
-		response = requests.request("POST", url, headers=headers, data=payload)
-		response.raise_for_status()
-	except requests.exceptions.HTTPError as err:
-		self.debugLog("HTTP Error when refreshing token")
-	except Exception as err:
-		self.debugLog("Other error when refreshing token")
-
-	response_json = response.json()
-	if response.status_code != 200:
-		self.errorLog("Failed to Authenticate with Glow Servers, Check Password and Account Name")
-		errorsDict = indigo.Dict()
-		errorsDict['bright_password'] = "Failed to Authenticate with Glow Servers, Check Password and Account Name"
-		return False
-	else:
-		self.pluginPrefs['token'] = response_json['token']
-		self.pluginPrefs['token_expires'] = response_json['exp']
-		self.debugLog("Token is " + self.pluginPrefs['token'])
-		self.debugLog("Expiry is " + str(self.pluginPrefs['token_expires']))
-		return True
-
-
-def get_resources(self):
-	if not token_check_valid(self):
-		refresh_token(self)
-	url = "https://api.glowmarkt.com/api/v0-1/resource"
-
-	payload = {}
-	headers = {
-		'Content-Type': 'application/json',
-		'applicationId': 'b0f1b774-a586-4f72-9edd-27ead8aa7a8d',
-	}
-	headers['token'] = self.pluginPrefs['token']
-	self.debugLog("Getting Resources")
-	try:
-		response = requests.request("GET", url, headers=headers, data=payload)
-		response.raise_for_status()
-	except requests.exceptions.HTTPError as err:
-		self.debugLog("HTTP Error when collecting resources")
-		return False
-	except Exception as err:
-		self.debugLog("Other error when collecting resources")
-		return False
-	response_json = response.json()
-	resource_list=[]
-	if response.status_code == 200:
-		for resources in response_json:
-			self.debugLog(resources['classifier'])
-			resource_list.append(resources['classifier'])
-			self.pluginPrefs[resources['classifier']] = resources['resourceId']
-			self.debugLog(self.pluginPrefs[resources['classifier']])
-		self.pluginPrefs['resource_list']=resource_list
-		return True
-	else:
-		self.debugLog("Error getting resources")
-		return False
 
 
 

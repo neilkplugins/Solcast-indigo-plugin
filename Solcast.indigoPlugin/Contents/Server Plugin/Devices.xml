@@ -1,373 +1,43 @@
 <?xml version="1.0"?>
 <Devices>
 	<!-- Define some devices -->
-	<Device type="custom" id="GlowmarktCAD">
-		<Name>Glowmarkt Smart Meter MQTT</Name>
+	<Device type="custom" id="Solar_Forecast">
+		<Name>PV Solar Generation Forecast</Name>
 		<ConfigUI>
             <SupportURL>http-//forums.indigodomo.com/viewforum.php?f=xxx</SupportURL>
 			
-            <Field id="brokerID" type="menu">
-                <Label>MQTT Broker-</Label>
-                <List class="self" filter="" method="getBrokerDevices" dynamicReload="true"/>
+
+            <Field id="rooftop_site" type="checkbox" defaultValue="false" >
+            <Label>Use a Device ID for a defined rooftop site</Label>
             </Field>
-            <Field id="octopus_enable" type="checkbox" defaultValue="false" >
-            <Label>Use associated Octopus Agile Tariff Device</Label>
+			<Field id="rooftop_site" type="checkbox" defaultValue="false" >
+            <Label>Use a Device ID for a defined rooftop site</Label>
             </Field>
-			<Field id="octopusID" type="menu" visibleBindingId="octopus_enable" visibleBindingValue="true">
-                <Label>Agile Tariff Device-</Label>
-                <List class="self" filter="" method="getAgileDevices" dynamicReload="true"/>
-            </Field>
+
         </ConfigUI>
 		<States>
-		<State id="elec_instantaneous">
+		<State id="solar_forecast">
 			<ValueType>Number</ValueType>
-			<TriggerLabel>Current Electricity Usage</TriggerLabel>
-			<ControlPageLabel>Current Electricity Usage</ControlPageLabel>
+			<TriggerLabel>Daily Solar Forecast</TriggerLabel>
+			<ControlPageLabel>Daily Solar Forecast</ControlPageLabel>
             </State>
-            <State id="elec_week_consumption">
+            <State id="solar_forecast10">
 			<ValueType>Number</ValueType>
-			<TriggerLabel>Weekly Electricity Consumption</TriggerLabel>
-			<ControlPageLabel>Weekly Electricity Consumption</ControlPageLabel>
+			<TriggerLabel>Daily Solar Forecast (10th percentile)</TriggerLabel>
+			<ControlPageLabel>Daily Solar Forecast (10th percentile)</ControlPageLabel>
             </State>
-            <State id="elec_month_consumption">
+            <State id="solar_forecast90">
 			<ValueType>Number</ValueType>
-			<TriggerLabel>Monthly Electricity Consumption</TriggerLabel>
-			<ControlPageLabel>Monthly Electricity Consumption</ControlPageLabel>
+			<TriggerLabel>Daily Solar Forecast (90th percentile)</TriggerLabel>
+			<ControlPageLabel>Daily Solar Forecast (90th percentile)</ControlPageLabel>
             </State>
-            <State id="elec_daily_consumption">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Daily Electricity Consumption</TriggerLabel>
-			<ControlPageLabel>Daily Electricity Consumption</ControlPageLabel>
-            </State>
-            <State id="gas_week_consumption">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Weekly Gas Consumption</TriggerLabel>
-			<ControlPageLabel>Weekly Gas Consumption</ControlPageLabel>
-            </State>
-            <State id="gas_month_consumption">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Monthly Gas Consumption</TriggerLabel>
-			<ControlPageLabel>Monthly Gas Consumption</ControlPageLabel>
-            </State>
-            <State id="gas_daily_consumption">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Daily Gas Consumption</TriggerLabel>
-			<ControlPageLabel>Daily Gas Consumption</ControlPageLabel>
-            </State>
-            <State id="gas_meter">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Gas Meter Reading</TriggerLabel>
-			<ControlPageLabel>Gas Meter Reading</ControlPageLabel>
-            </State>
-            <State id="electricity_meter">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Electricity Meter Reading</TriggerLabel>
-			<ControlPageLabel>Electricity Meter Reading</ControlPageLabel>
-            </State>
-            <State id="mpan">
+<State id="raw_json">
 			<ValueType>String</ValueType>
-			<TriggerLabel>Meter Point Administration Number (Electricity)</TriggerLabel>
-			<ControlPageLabel>Meter Point Administration Number (Electricity)</ControlPageLabel>
+			<TriggerLabel>JSON Response</TriggerLabel>
+			<ControlPageLabel>JSON Response</ControlPageLabel>
             </State>
-            <State id="agile_cost_hour">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Agile Hourly Cost</TriggerLabel>
-			<ControlPageLabel>Agile Hourly Cost</ControlPageLabel>
-            </State>
-            <State id="electricity_supplier">
-			<ValueType>String</ValueType>
-			<TriggerLabel>Electricity Supplier</TriggerLabel>
-			<ControlPageLabel>Electricity Supplier</ControlPageLabel>
-            </State>
-            <State id="meter_status">
-			<ValueType>String</ValueType>
-			<TriggerLabel>Meter Status</TriggerLabel>
-			<ControlPageLabel>Meter Status</ControlPageLabel>
-            </State>
+
         </States>
-        <UiDisplayStateId>elec_instantaneous</UiDisplayStateId>		
+        <UiDisplayStateId>solar_forecast</UiDisplayStateId>
 	</Device>
-	<Device type="custom" id="daily_Consumption">
-			<Name>Glowmarkt Daily Consumption </Name>
-		<ConfigUI>
-            <Field id="resource_type" type="menu">
-                <Label>Resource Type-</Label>
-                <List class="self" filter="" method="resourceListGenerator" />
-            </Field>
-<Field id="dayList" type="menu">
-<Label>Choose:</Label>
-<List>
-	<Option value="today">For Todays Rates (requires CAD Device)</Option>
-	<Option value="yesterday">Yesterdays Rates</Option>
-</List>
-</Field>
 
-        </ConfigUI>
-	<States>
-		<State id="consumption_date">
-			<ValueType>String</ValueType>
-			<TriggerLabel>Consumption Date</TriggerLabel>
-			<ControlPageLabel>Consumption Date</ControlPageLabel>
-            </State>
-<State id="From-00-00">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 00:00</TriggerLabel>
-			<ControlPageLabel>Consumption from 00:00</ControlPageLabel>
-            </State>
-		<State id="From-00-30">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 00:30</TriggerLabel>
-			<ControlPageLabel>Consumption from 00:30</ControlPageLabel>
-            </State>
-		<State id="From-01-00">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 01:00</TriggerLabel>
-			<ControlPageLabel>Consumption from 01:00</ControlPageLabel>
-            </State>
-		<State id="From-01-30">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 01:30</TriggerLabel>
-			<ControlPageLabel>Consumption from 01:30</ControlPageLabel>
-            </State>
-		<State id="From-02-00">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 02:00</TriggerLabel>
-			<ControlPageLabel>Consumption from 02:00</ControlPageLabel>
-            </State>
-		<State id="From-02-30">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 02:30</TriggerLabel>
-			<ControlPageLabel>Consumption from 02:30</ControlPageLabel>
-            </State>
-		<State id="From-03-00">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 03:00</TriggerLabel>
-			<ControlPageLabel>Consumption from 03:00</ControlPageLabel>
-            </State>
-		<State id="From-03-30">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 03:30</TriggerLabel>
-			<ControlPageLabel>Consumption from 03:30</ControlPageLabel>
-            </State>
-		<State id="From-04-00">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 04:00</TriggerLabel>
-			<ControlPageLabel>Consumption from 04:00</ControlPageLabel>
-            </State>
-		<State id="From-04-30">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 04:30</TriggerLabel>
-			<ControlPageLabel>Consumption from 04:30</ControlPageLabel>
-            </State>
-		<State id="From-05-00">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 05:00</TriggerLabel>
-			<ControlPageLabel>Consumption from 05:00</ControlPageLabel>
-            </State>
-		<State id="From-05-30">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 05:30</TriggerLabel>
-			<ControlPageLabel>Consumption from 05:30</ControlPageLabel>
-            </State>
-		<State id="From-06-00">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 06:00</TriggerLabel>
-			<ControlPageLabel>Consumption from 06:00</ControlPageLabel>
-            </State>
-		<State id="From-06-30">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 06:30</TriggerLabel>
-			<ControlPageLabel>Consumption from 06:30</ControlPageLabel>
-            </State>
-		<State id="From-07-00">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 07:00</TriggerLabel>
-			<ControlPageLabel>Consumption from 07:00</ControlPageLabel>
-            </State>
-		<State id="From-07-30">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 07:30</TriggerLabel>
-			<ControlPageLabel>Consumption from 07:30</ControlPageLabel>
-            </State>
-		<State id="From-08-00">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 08:00</TriggerLabel>
-			<ControlPageLabel>Consumption from 08:00</ControlPageLabel>
-            </State>
-		<State id="From-08-30">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 08:30</TriggerLabel>
-			<ControlPageLabel>Consumption from 08:30</ControlPageLabel>
-            </State>
-		<State id="From-09-00">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 09:00</TriggerLabel>
-			<ControlPageLabel>Consumption from 09:00</ControlPageLabel>
-            </State>
-		<State id="From-09-30">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 09:30</TriggerLabel>
-			<ControlPageLabel>Consumption from 09:30</ControlPageLabel>
-            </State>
-		<State id="From-10-00">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 10:00</TriggerLabel>
-			<ControlPageLabel>Consumption from 10:00</ControlPageLabel>
-            </State>
-		<State id="From-10-30">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 10:30</TriggerLabel>
-			<ControlPageLabel>Consumption from 10:30</ControlPageLabel>
-            </State>
-		<State id="From-11-00">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 11:00</TriggerLabel>
-			<ControlPageLabel>Consumption from 11:00</ControlPageLabel>
-            </State>
-		<State id="From-11-30">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 11:30</TriggerLabel>
-			<ControlPageLabel>Consumption from 11:30</ControlPageLabel>
-            </State>
-		<State id="From-12-00">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 12:00</TriggerLabel>
-			<ControlPageLabel>Consumption from 12:00</ControlPageLabel>
-            </State>
-		<State id="From-12-30">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 12:30</TriggerLabel>
-			<ControlPageLabel>Consumption from 12:30</ControlPageLabel>
-            </State>
-		<State id="From-13-00">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 13:00</TriggerLabel>
-			<ControlPageLabel>Consumption from 13:00</ControlPageLabel>
-            </State>
-		<State id="From-13-30">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 13:30</TriggerLabel>
-			<ControlPageLabel>Consumption from 13:30</ControlPageLabel>
-            </State>
-		<State id="From-14-00">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 14:00</TriggerLabel>
-			<ControlPageLabel>Consumption from 14:00</ControlPageLabel>
-            </State>
-		<State id="From-14-30">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 14:30</TriggerLabel>
-			<ControlPageLabel>Consumption from 14:30</ControlPageLabel>
-            </State>
-		<State id="From-15-00">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 15:00</TriggerLabel>
-			<ControlPageLabel>Consumption from 15:00</ControlPageLabel>
-            </State>
-		<State id="From-15-30">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 15:30</TriggerLabel>
-			<ControlPageLabel>Consumption from 15:30</ControlPageLabel>
-            </State>
-		<State id="From-16-00">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 16:00</TriggerLabel>
-			<ControlPageLabel>Consumption from 16:00</ControlPageLabel>
-            </State>
-		<State id="From-16-30">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 16:30</TriggerLabel>
-			<ControlPageLabel>Consumption from 16:30</ControlPageLabel>
-            </State>
-		<State id="From-17-00">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 17:00</TriggerLabel>
-			<ControlPageLabel>Consumption from 17:00</ControlPageLabel>
-            </State>
-		<State id="From-17-30">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 17:30</TriggerLabel>
-			<ControlPageLabel>Consumption from 17:30</ControlPageLabel>
-            </State>
-		<State id="From-18-00">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 18:00</TriggerLabel>
-			<ControlPageLabel>Consumption from 18:00</ControlPageLabel>
-            </State>
-		<State id="From-18-30">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 18:30</TriggerLabel>
-			<ControlPageLabel>Consumption from 18:30</ControlPageLabel>
-            </State>
-		<State id="From-19-00">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 19:00</TriggerLabel>
-			<ControlPageLabel>Consumption from 19:00</ControlPageLabel>
-            </State>
-		<State id="From-19-30">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 19:30</TriggerLabel>
-			<ControlPageLabel>Consumption from 19:30</ControlPageLabel>
-            </State>
-		<State id="From-20-00">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 20:00</TriggerLabel>
-			<ControlPageLabel>Consumption from 20:00</ControlPageLabel>
-            </State>
-		<State id="From-20-30">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 20:30</TriggerLabel>
-			<ControlPageLabel>Consumption from 20:30</ControlPageLabel>
-            </State>
-		<State id="From-21-00">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 21:00</TriggerLabel>
-			<ControlPageLabel>Consumption from 21:00</ControlPageLabel>
-            </State>
-		<State id="From-21-30">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 21:30</TriggerLabel>
-			<ControlPageLabel>Consumption from 21:30</ControlPageLabel>
-            </State>
-		<State id="From-22-00">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 22:00</TriggerLabel>
-			<ControlPageLabel>Consumption from 22:00</ControlPageLabel>
-            </State>
-		<State id="From-22-30">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 22:30</TriggerLabel>
-			<ControlPageLabel>Consumption from 22:30</ControlPageLabel>
-            </State>
-		<State id="From-23-00">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 23:00</TriggerLabel>
-			<ControlPageLabel>Consumption from 23:00</ControlPageLabel>
-            </State>
-		<State id="From-23-30">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption from 23:30</TriggerLabel>
-			<ControlPageLabel>Consumption from 23:30</ControlPageLabel>
-            </State>
-
-		<State id="consumption_type">
-			<ValueType>String</ValueType>
-			<TriggerLabel>Consumption Type</TriggerLabel>
-			<ControlPageLabel>Consumption Type</ControlPageLabel>
-            </State>
-
-		<State id="consumption_sum">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption Daily Sum</TriggerLabel>
-			<ControlPageLabel>Consumption Daily Sum</ControlPageLabel>
-            </State>
-		<State id="consumption_this_period">
-			<ValueType>Number</ValueType>
-			<TriggerLabel>Consumption Daily Sum</TriggerLabel>
-			<ControlPageLabel>Consumption Daily Sum</ControlPageLabel>
-            </State>
-</States>
-		<UiDisplayStateId>consumption_sum</UiDisplayStateId>
-
-	</Device>
-</Devices>

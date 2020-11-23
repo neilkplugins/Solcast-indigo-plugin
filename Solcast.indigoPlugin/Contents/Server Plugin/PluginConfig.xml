@@ -8,11 +8,7 @@
 	</Field>
 	<Field id="simpleseparator1" type="separator">
 	</Field>
-	<Field id="API_enable" type="checkbox" defaultValue="false" >
-		<Label>Use Glow API to get "additional and historic" Smart Meter Data</Label>
-	</Field>
-	<Field id="Label2" type="label" fontSize="small" fontColor="darkgray"><Label>You will need an account from www.glowmarkt.com and confirm data is available in the Bright App first before configuring</Label>
-	</Field>
+
 	<Field id="bright_account" type="textfield" visibleBindingId="API_enable" visibleBindingValue="true">
 		<Label>Glow/Bright Account eMail Address</Label>
 	</Field>
