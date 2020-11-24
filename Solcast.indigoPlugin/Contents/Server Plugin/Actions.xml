@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+
+<Actions>
+	<Action id="refresh_forecast"  uiPath="DeviceActions">
+		<Name>Refresh Solar PV Forecast</Name>
+		<CallbackMethod>refresh_daily_solar_device</CallbackMethod>
+	</Action>
+</Actions>

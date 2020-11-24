@@ -6,13 +6,15 @@
 		<ConfigUI>
             <SupportURL>http-//forums.indigodomo.com/viewforum.php?f=xxx</SupportURL>
 			
+			<Field id="API_key" type="textfield"  >
+            <Label>Your Solcast API Key</Label>
+            </Field>
 
-            <Field id="rooftop_site" type="checkbox" defaultValue="false" >
-            <Label>Use a Device ID for a defined rooftop site</Label>
+			<Field id="resource_ID" type="textfield"  >
+            <Label>Resource ID for your defined Site</Label>
             </Field>
-			<Field id="rooftop_site" type="checkbox" defaultValue="false" >
-            <Label>Use a Device ID for a defined rooftop site</Label>
-            </Field>
+
+
 
         </ConfigUI>
 		<States>
@@ -35,6 +37,11 @@
 			<ValueType>String</ValueType>
 			<TriggerLabel>JSON Response</TriggerLabel>
 			<ControlPageLabel>JSON Response</ControlPageLabel>
+            </State>
+			<State id="API_today">
+			<ValueType>String</ValueType>
+			<TriggerLabel>Last Forecast Update</TriggerLabel>
+			<ControlPageLabel>Last Forecast Update</ControlPageLabel>
             </State>
 
         </States>

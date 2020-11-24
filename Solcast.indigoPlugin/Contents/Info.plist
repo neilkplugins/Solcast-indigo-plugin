@@ -9,7 +9,7 @@
 	<key>IwsApiVersion</key>
 	<string>1.0.0</string>
 	<key>CFBundleDisplayName</key>
-	<string>GlowmarktCAD</string>
+	<string>Solcast</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.barn.indigoplugin.Solcast</string>
 	<key>CFBundleVersion</key>
