@@ -1,50 +1,49 @@
 <?xml version="1.0"?>
 <Devices>
 	<!-- Define some devices -->
-	<Device type="custom" id="Solar_Forecast">
-		<Name>PV Solar Generation Forecast</Name>
-		<ConfigUI>
-            <SupportURL>http-//forums.indigodomo.com/viewforum.php?f=xxx</SupportURL>
-			
-			<Field id="API_key" type="textfield"  >
-            <Label>Your Solcast API Key</Label>
-            </Field>
-
-			<Field id="resource_ID" type="textfield"  >
-            <Label>Resource ID for your defined Site</Label>
-            </Field>
+	<Device type="custom" id="OctopusEnergy">
 
 
+	<Name>PV Solar Generation Forecast</Name>
+	<ConfigUI>
+		<SupportURL>http-//forums.indigodomo.com/viewforum.php?f=xxx</SupportURL>
 
-        </ConfigUI>
-		<States>
+		<Field id="API_key" type="textfield"  >
+			<Label>Your Solcast API Key</Label>
+		</Field>
+
+		<Field id="resource_ID" type="textfield"  >
+			<Label>Resource ID for your defined Site</Label>
+		</Field>
+	</ConfigUI>
+	<States>
 		<State id="solar_forecast">
 			<ValueType>Number</ValueType>
 			<TriggerLabel>Daily Solar Forecast</TriggerLabel>
 			<ControlPageLabel>Daily Solar Forecast</ControlPageLabel>
-            </State>
-            <State id="solar_forecast10">
+		</State>
+		<State id="solar_forecast10">
 			<ValueType>Number</ValueType>
 			<TriggerLabel>Daily Solar Forecast (10th percentile)</TriggerLabel>
 			<ControlPageLabel>Daily Solar Forecast (10th percentile)</ControlPageLabel>
-            </State>
-            <State id="solar_forecast90">
+		</State>
+		<State id="solar_forecast90">
 			<ValueType>Number</ValueType>
 			<TriggerLabel>Daily Solar Forecast (90th percentile)</TriggerLabel>
 			<ControlPageLabel>Daily Solar Forecast (90th percentile)</ControlPageLabel>
-            </State>
-<State id="raw_json">
+		</State>
+		<State id="raw_json">
 			<ValueType>String</ValueType>
 			<TriggerLabel>JSON Response</TriggerLabel>
 			<ControlPageLabel>JSON Response</ControlPageLabel>
-            </State>
-			<State id="API_today">
+		</State>
+		<State id="API_Today">
 			<ValueType>String</ValueType>
 			<TriggerLabel>Last Forecast Update</TriggerLabel>
 			<ControlPageLabel>Last Forecast Update</ControlPageLabel>
-            </State>
+		</State>
 
-        </States>
-        <UiDisplayStateId>solar_forecast</UiDisplayStateId>
+	</States>
+	<UiDisplayStateId>solar_forecast</UiDisplayStateId>
 	</Device>
-
+</Devices>

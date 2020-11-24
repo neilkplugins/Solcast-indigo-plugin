@@ -10,60 +10,13 @@
 ################################################################################
 import indigo
 import requests
+import datetime
 import json
-import time
-from datetime import datetime, timedelta, date
-import pytz
 
 
 ################################################################################
 # Globals
 ################################################################################
-
-
-############################
-# API Functions
-#############################
-
-
-def refresh_daily_solar_device(self, device):
-
-	api_error = False
-	resource_type = device.pluginProps['resource_ID']
-	resource_ID = self.pluginPrefs[resource_type]
-	url = "https://api.solcast.com.au/rooftop_sites/" + resource_ID + "/forecasts?format=json"
-
-	payload = {}
-	headers = {
-		'Authorization': 'Basic '+device.pluginProps['API_key']
-	}
-	try:
-		response = requests.get(url, headers=headers, data=payload)
-		response.raise_for_status()
-	except requests.exceptions.HTTPError as err:
-		indigo.server.log("HTTP Error from Solcast API ")
-		self.debugLog("Error is "+ str(err))
-		api_error = True
-	except Exception as err:
-		indigo.server.log("Unknown/Other Error from Solcast API ")
-		self.debugLog("Error is "+ str(err))
-		api_error = True
-	if api_error :
-		indigo.server.log("Aborting update action for "+device.name)
-		return
-	response_json = response.json()
-
-	device_states = []
-
-
-
-
-	device_states.append({'key': 'raw_json', 'value': response_json})
-
-	device.updateStatesOnServer(device_states)
-
-	return
-
 
 
 
@@ -138,6 +91,69 @@ class Plugin(indigo.PluginBase):
 	def validatePrefsConfigUi(self, valuesDict):
 
 		return(True,valuesDict)
+
+	############################
+	# Action Method
+	#############################
+
+	def refresh_daily_solar_device(self,pluginAction, device):
+
+		api_error = False
+		local_day = datetime.datetime.now().date()
+		tomorrow = datetime.date.today() + datetime.timedelta(days=1)
+
+
+		resource_ID = device.pluginProps['resource_ID']
+		url = "https://api.solcast.com.au/rooftop_sites/" + resource_ID + "/forecasts?format=json"
+
+		payload = {}
+		headers = {
+			'Authorization': 'Basic ' + device.pluginProps['API_key']
+		}
+		try:
+			response = requests.get(url, headers=headers, data=payload)
+			response.raise_for_status()
+		except requests.exceptions.HTTPError as err:
+			indigo.server.log("HTTP Error from Solcast API ")
+			self.debugLog("Error is " + str(err))
+			api_error = True
+		except Exception as err:
+			indigo.server.log("Unknown/Other Error from Solcast API ")
+			self.debugLog("Error is " + str(err))
+			api_error = True
+		if api_error:
+			indigo.server.log("Aborting update action for " + device.name)
+			return
+		forecast_json = response.json()
+		device_states = []
+		#forecast_json = json.loads(device.states['raw_json'])
+		length = len(forecast_json['forecasts'])
+		i = 0
+		pv_estimate = 0
+		pv_estimate10 = 10
+		pv_estimate90 = 0
+		while i < length:
+			period_end = forecast_json['forecasts'][i]['period_end']
+			if str(tomorrow) in period_end:
+				pv_estimate = pv_estimate + forecast_json['forecasts'][i]['pv_estimate']
+				pv_estimate10 = pv_estimate10 + forecast_json['forecasts'][i]['pv_estimate10']
+				pv_estimate90 = pv_estimate90 + forecast_json['forecasts'][i]['pv_estimate90']
+
+				self.debugLog(str(pv_estimate) + " " + str(pv_estimate10) + " " + str(pv_estimate90))
+			i += 1
+		# if str(local_day +datetime.timedelta(days=1)) in forecast_json[forecasts]['period_end']:
+		# self.debugLog(forecast_json[forecasts])
+		device_states.append({'key': 'solar_forecast','value': pv_estimate })
+		device_states.append({'key': 'solar_forecast10','value': pv_estimate10 })
+		device_states.append({'key': 'solar_forecast90','value': pv_estimate90 })
+
+		device_states.append({'key': 'raw_json', 'value': json.dumps(forecast_json)})
+		device_states.append({'key': 'API_Today', 'value': str(local_day)})
+		device.updateStatesOnServer(device_states)
+
+		return
+
+
 
 
 
