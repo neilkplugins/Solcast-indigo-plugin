@@ -108,7 +108,7 @@ class Plugin(indigo.PluginBase):
 		self.debugLog("API call is "+url)
 		payload = {}
 		headers = {
-			'Authorization': 'Basic ' + device.pluginProps['API_key']
+			'Authorization': 'Bearer ' + device.pluginProps['API_key']
 		}
 		self.debugLog("Headers : "+str(headers))
 		try:
