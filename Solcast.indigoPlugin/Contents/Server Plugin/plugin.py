@@ -105,11 +105,12 @@ class Plugin(indigo.PluginBase):
 
 		resource_ID = device.pluginProps['resource_ID']
 		url = "https://api.solcast.com.au/rooftop_sites/" + resource_ID + "/forecasts?format=json"
-
+		self.debugLog("API call is "+url)
 		payload = {}
 		headers = {
 			'Authorization': 'Basic ' + device.pluginProps['API_key']
 		}
+		self.debugLog("Headers : "+str(headers))
 		try:
 			response = requests.get(url, headers=headers, data=payload)
 			response.raise_for_status()
@@ -142,7 +143,6 @@ class Plugin(indigo.PluginBase):
 				self.debugLog(str(pv_estimate) + " " + str(pv_estimate10) + " " + str(pv_estimate90))
 			i += 1
 		# if str(local_day +datetime.timedelta(days=1)) in forecast_json[forecasts]['period_end']:
-		# self.debugLog(forecast_json[forecasts])
 		device_states.append({'key': 'solar_forecast','value': pv_estimate })
 		device_states.append({'key': 'solar_forecast10','value': pv_estimate10 })
 		device_states.append({'key': 'solar_forecast90','value': pv_estimate90 })
