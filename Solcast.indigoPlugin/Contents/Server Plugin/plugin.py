@@ -131,7 +131,7 @@ class Plugin(indigo.PluginBase):
 		length = len(forecast_json['forecasts'])
 		i = 0
 		pv_estimate = 0
-		pv_estimate10 = 10
+		pv_estimate10 = 0
 		pv_estimate90 = 0
 		while i < length:
 			period_end = forecast_json['forecasts'][i]['period_end']
@@ -143,9 +143,9 @@ class Plugin(indigo.PluginBase):
 				self.debugLog(str(pv_estimate) + " " + str(pv_estimate10) + " " + str(pv_estimate90))
 			i += 1
 		# if str(local_day +datetime.timedelta(days=1)) in forecast_json[forecasts]['period_end']:
-		device_states.append({'key': 'solar_forecast','value': pv_estimate })
-		device_states.append({'key': 'solar_forecast10','value': pv_estimate10 })
-		device_states.append({'key': 'solar_forecast90','value': pv_estimate90 })
+		device_states.append({'key': 'solar_forecast','value': (pv_estimate/2) })
+		device_states.append({'key': 'solar_forecast10','value': (pv_estimate10/2) })
+		device_states.append({'key': 'solar_forecast90','value': (pv_estimate90/2) })
 
 		device_states.append({'key': 'raw_json', 'value': json.dumps(forecast_json)})
 		device_states.append({'key': 'API_Today', 'value': str(local_day)})
